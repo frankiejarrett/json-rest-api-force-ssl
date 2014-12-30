@@ -3,6 +3,7 @@
  * Plugin Name: JSON REST API Force SSL
  * Description: Force WP JSON REST API endpoints to always be served over HTTPS.
  * Version: 0.1.0
+ * Depends: JSON REST API
  * Author: Frankie Jarrett
  * Author URI: http://frankiejarrett.com
  * License: GPLv2+
