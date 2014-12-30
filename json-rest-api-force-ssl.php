@@ -20,6 +20,13 @@ class JSON_REST_API_Force_SSL {
 	const VERSION = '0.1.0';
 
 	/**
+	 * Hold whether or not dependencies are satisfied
+	 *
+	 * @var bool
+	 */
+	public static $dependencies_satisfied = false;
+
+	/**
 	 * Hold plugin instance
 	 *
 	 * @var string
@@ -30,7 +37,7 @@ class JSON_REST_API_Force_SSL {
 	 * Class constructor
 	 */
 	private function __construct() {
-		add_action( 'plugins_loaded', array( __CLASS__, 'check_dependencies' ) );
+		add_action( 'plugins_loaded', array( __CLASS__, 'load' ) );
 		add_action( 'wp_json_server_before_serve', array( __CLASS__, 'ssl_redirect' ) );
 	}
 
@@ -41,13 +48,16 @@ class JSON_REST_API_Force_SSL {
 	 *
 	 * @return void
 	 */
-	public static function check_dependencies() {
+	public static function load() {
 		if ( defined( 'JSON_API_VERSION' ) ) {
 			return;
 		}
 
-		// Display admin notice if dependencies are not satisfied
+		// Display admin notice
 		add_action( 'all_admin_notices', array( __CLASS__, 'admin_notice' ) );
+
+		// Deactivate the plugin
+		add_action( 'admin_init', array( __CLASS__, 'deactivate' ) );
 	}
 
 	/**
@@ -60,9 +70,20 @@ class JSON_REST_API_Force_SSL {
 	public static function admin_notice() {
 		?>
 		<div class="error">
-			<p><?php _e( 'The <strong>JSON REST API Force SSL</strong> plugin requires the <strong>JSON REST API</strong> plugin to be installed and activated.', 'json-rest-api-force-ssl' ) ?></p>
+			<p><?php _e( 'The <strong>JSON REST API Force SSL</strong> plugin has been deactivated because it requires the <strong>JSON REST API</strong> plugin.', 'json-rest-api-force-ssl' ) ?></p>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Deactivate the plugin
+	 *
+	 * @action admin_init
+	 *
+	 * @return void
+	 */
+	public static function deactivate() {
+		deactivate_plugins( plugin_basename( __FILE__ ) );
 	}
 
 	/**
