@@ -20,13 +20,6 @@ class JSON_REST_API_Force_SSL {
 	const VERSION = '0.1.0';
 
 	/**
-	 * Hold value of whether or not dependencies are satisfied
-	 *
-	 * @var bool
-	 */
-	public static $dependencies_satisfied;
-
-	/**
 	 * Hold plugin instance
 	 *
 	 * @var string
@@ -38,12 +31,6 @@ class JSON_REST_API_Force_SSL {
 	 */
 	private function __construct() {
 		add_action( 'plugins_loaded', array( __CLASS__, 'check_dependencies' ) );
-
-		// Display admin notice if dependencies are not satisfied
-		if ( ! self::$dependencies_satisfied ) {
-			add_action( 'all_admin_notices', array( __CLASS__, 'admin_notice' ) );
-		}
-
 		add_action( 'wp_json_server_before_serve', array( __CLASS__, 'ssl_redirect' ) );
 	}
 
@@ -55,7 +42,12 @@ class JSON_REST_API_Force_SSL {
 	 * @return void
 	 */
 	public static function check_dependencies() {
-		self::$dependencies_satisfied = ( defined( 'JSON_API_VERSION' ) && function_exists( 'json_api_loaded' ) );
+		if ( defined( 'JSON_API_VERSION' ) ) {
+			return;
+		}
+
+		// Display admin notice if dependencies are not satisfied
+		add_action( 'all_admin_notices', array( __CLASS__, 'admin_notice' ) );
 	}
 
 	/**
