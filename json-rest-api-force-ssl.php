@@ -20,13 +20,6 @@ class JSON_REST_API_Force_SSL {
 	const VERSION = '0.1.0';
 
 	/**
-	 * Hold whether or not dependencies are satisfied
-	 *
-	 * @var bool
-	 */
-	public static $dependencies_satisfied = false;
-
-	/**
 	 * Hold plugin instance
 	 *
 	 * @var string
