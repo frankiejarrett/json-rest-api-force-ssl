@@ -94,7 +94,7 @@ class JSON_REST_API_Force_SSL {
 		$json_url = esc_url_raw( $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
 		$redirect = set_url_scheme( $json_url, 'https' );
 
-		wp_redirect( $redirect, 301 );
+		wp_safe_redirect( $redirect, 301 );
 
 		exit;
 	}
