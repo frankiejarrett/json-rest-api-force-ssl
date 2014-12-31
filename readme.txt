@@ -24,7 +24,14 @@ And as always, if you have suggestions to make this plugin better, or find probl
 
 == Changelog ==
 
+= 0.1.1 - December 30, 2014 =
+
+* Ensure safe local redirects by using wp_safe_redirect() instead of wp_redirect()
+
+Props [johnjamesjacoby](https://profiles.wordpress.org/johnjamesjacoby/)
+
 = 0.1.0 - December 30, 2014 =
-Initial release.
+
+* Initial release.
 
 Props [fjarrett](https://profiles.wordpress.org/fjarrett/)
