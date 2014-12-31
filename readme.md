@@ -16,12 +16,9 @@ Force WP JSON REST API endpoints to always be served over HTTPS.
 
 **Note: This plugin requires the [JSON REST API (WP API)](https://wordpress.org/plugins/json-rest-api/) plugin.**
 
-For site owners who want the WP API served over SSL always and forever. All HTTP requests to the JSON REST API will be 301 redirected to their HTTPS equivalent.
+For site owners who want the WP API served over SSL always and forever.
 
-```
-http://example.com/wp-json/ --> https://example.com/wp-json/
-http://example.com/wp-json/posts/ --> https://example.com/wp-json/posts/
-```
+All HTTP requests to the JSON REST API will be 301 redirected to their HTTPS equivalent.
 
 If for some reason you don't want to use a plugin to do this, you can also just add this hook to your theme: https://gist.github.com/fjarrett/8cd04bd33e49bbd6e3b7
 
