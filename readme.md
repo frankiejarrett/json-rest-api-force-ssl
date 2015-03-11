@@ -4,8 +4,8 @@
 ![Banner](assets/banner-1544x500.png)
 Force WP JSON REST API endpoints to always be served over HTTPS.
 
-**Contributors:** [fjarrett](http://profiles.wordpress.org/fjarrett)  
-**Tags:** [api](http://wordpress.org/plugins/tags/api), [json](http://wordpress.org/plugins/tags/json), [REST](http://wordpress.org/plugins/tags/REST), [rest-api](http://wordpress.org/plugins/tags/rest-api), [ssl](http://wordpress.org/plugins/tags/ssl), [https](http://wordpress.org/plugins/tags/https), [security](http://wordpress.org/plugins/tags/security)  
+**Contributors:** [fjarrett](https://profiles.wordpress.org/fjarrett)  
+**Tags:** [api](https://wordpress.org/plugins/tags/api), [json](https://wordpress.org/plugins/tags/json), [REST](https://wordpress.org/plugins/tags/REST), [rest-api](https://wordpress.org/plugins/tags/rest-api), [ssl](https://wordpress.org/plugins/tags/ssl), [https](https://wordpress.org/plugins/tags/https), [security](https://wordpress.org/plugins/tags/security)  
 **Requires at least:** 3.9  
 **Tested up to:** 4.1  
 **Stable tag:** trunk (master)  
