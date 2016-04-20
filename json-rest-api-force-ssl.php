@@ -1,121 +1,34 @@
 <?php
 /**
- * Plugin Name: JSON REST API Force SSL
- * Description: Force WP JSON REST API endpoints to always be served over HTTPS.
- * Version: 0.1.1
- * Depends: JSON REST API
+ * Plugin Name: WP REST API Force SSL
+ * Description: Force WP REST API endpoints to only be served over HTTPS.
+ * Version: 0.2.0
+ * Depends: json-rest-api
  * Author: Frankie Jarrett
- * Author URI: http://frankiejarrett.com
+ * Author URI: https://frankiejarrett.com
  * Text Domain: json-rest-api-force-ssl
- *
- * Copyright: © 2015 Frankie Jarrett.
  * License: GNU General Public License v2.0
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ *
+ * Copyright © 2016 Frankie Jarrett. All Rights Reserved.
  */
 
-class JSON_REST_API_Force_SSL {
+/**
+ * Redirect HTTP requests to HTTPS.
+ *
+ * @action rest_api_init
+ */
+function wp_rest_api_force_ssl() {
 
-	/**
-	 * Plugin version number
-	 *
-	 * @const string
-	 */
-	const VERSION = '0.1.1';
+	if ( ! is_ssl() ) {
 
-	/**
-	 * Hold plugin instance
-	 *
-	 * @var string
-	 */
-	public static $instance;
+		$url = set_url_scheme( esc_url_raw( $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ), 'https' );
 
-	/**
-	 * Class constructor
-	 */
-	private function __construct() {
-		add_action( 'plugins_loaded', array( __CLASS__, 'load' ) );
-		add_action( 'wp_json_server_before_serve', array( __CLASS__, 'ssl_redirect' ) );
-	}
-
-	/**
-	 * Check the dependencies for this plugin
-	 *
-	 * @action plugins_loaded
-	 *
-	 * @return void
-	 */
-	public static function load() {
-		if ( defined( 'JSON_API_VERSION' ) ) {
-			return;
-		}
-
-		// Display admin notice
-		add_action( 'all_admin_notices', array( __CLASS__, 'admin_notice' ) );
-
-		// Deactivate the plugin
-		add_action( 'admin_init', array( __CLASS__, 'deactivate' ) );
-	}
-
-	/**
-	 * Display admin notice when JSON REST API does not exist
-	 *
-	 * @action all_admin_notices
-	 *
-	 * @return void
-	 */
-	public static function admin_notice() {
-		?>
-		<div class="error">
-			<p><?php _e( 'The <strong>JSON REST API Force SSL</strong> plugin has been deactivated because it requires the <strong>JSON REST API</strong> plugin.', 'json-rest-api-force-ssl' ) ?></p>
-		</div>
-		<?php
-	}
-
-	/**
-	 * Deactivate the plugin
-	 *
-	 * @action admin_init
-	 *
-	 * @return void
-	 */
-	public static function deactivate() {
-		deactivate_plugins( plugin_basename( __FILE__ ) );
-	}
-
-	/**
-	 * Force WP JSON REST API endpoints to always be served over HTTPS
-	 *
-	 * @action wp_json_server_before_serve
-	 *
-	 * @return void
-	 */
-	public static function ssl_redirect() {
-		if ( is_ssl() ) {
-			return;
-		}
-
-		$json_url = esc_url_raw( $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
-		$redirect = set_url_scheme( $json_url, 'https' );
-
-		wp_safe_redirect( $redirect, 301 );
+		wp_safe_redirect( $url, 301 );
 
 		exit;
-	}
 
-	/**
-	 * Return active instance of JSON_REST_API_Force_SSL, create one if it doesn't exist
-	 *
-	 * @return JSON_REST_API_Force_SSL
-	 */
-	public static function get_instance() {
-		if ( empty( self::$instance ) ) {
-			$class = __CLASS__;
-			self::$instance = new $class;
-		}
-
-		return self::$instance;
 	}
 
 }
-
-$GLOBALS['json_rest_api_force_ssl'] = JSON_REST_API_Force_SSL::get_instance();
+add_action( 'rest_api_init', 'wp_rest_api_force_ssl', ~PHP_INT_MAX );
